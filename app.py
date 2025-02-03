@@ -19,6 +19,7 @@ def load_posts():
     with open("data.json", "r") as file:
         return json.load(file)  # Load JSON into a Python list
 
+# Function to save posts to the json file
 def save_posts(posts):
     with open("data.json", "w") as file:
         json.dump(posts, file, indent=4)
@@ -29,7 +30,7 @@ def get_next_id():
     if posts:
         return max(post["id"] for post in posts) + 1
     return 1
-
+# Getting a post by ID
 def fetch_post_by_id(post_id):
     posts = load_posts()  # Load all posts from JSON
     for post in posts:
@@ -90,6 +91,7 @@ def delete_post(post_id):
 
 @app.route('/update/<int:post_id>', methods=['GET', 'POST'])
 def update(post_id):
+    # Get all posts from json
     posts = load_posts()
 
     # Find the post by ID
