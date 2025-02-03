@@ -1,14 +1,14 @@
 [
     {
-        "author": "John Doe",
-        "content": "This is my first post.",
-        "id": 1,
-        "title": "First Post"
+        "author": "Me",
+        "content": "Let's see",
+        "id": 4,
+        "title": "Actually a blog post"
     },
     {
-        "author": "Jane Doe",
-        "content": "This is another post.",
-        "id": 2,
-        "title": "Second Post"
+        "author": "You",
+        "content": "Some content",
+        "id": 5,
+        "title": "Also a blog post"
     }
 ]

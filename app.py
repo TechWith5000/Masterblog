@@ -90,36 +90,35 @@ def delete_post(post_id):
 
 @app.route('/update/<int:post_id>', methods=['GET', 'POST'])
 def update(post_id):
-    # Load all posts
     posts = load_posts()
-    # Fetch the blog posts from the JSON file
-    post = fetch_post_by_id(post_id)
-    if post is None:
-        # Post not found
+
+    # Find the post by ID
+    post = next((p for p in posts if p["id"] == post_id), None)
+
+    if not post:
         return "Post not found", 404
 
     if request.method == 'POST':
-        # Get updated data from the form
-        author = request.form["author"]
-        title = request.form["title"]
-        content = request.form["content"]
+        # Get updated form data
+        title = request.form.get("title")
+        author = request.form.get("author")
+        content = request.form.get("content")
 
-        post["author"] = author
-        post["title"] = title
-        post["content"] = content
+        if not title or not author or not content:
+            return "All fields are required", 400
 
+        # Update the post directly in the list
+        for i, p in enumerate(posts):
+            if p["id"] == post_id:
+                posts[i] = {"id": post_id, "title": title, "author": author, "content": content}
+                break
 
-    # Save updated post back to JSON
-    for i, p in enumerate(posts):
-        if p["id"] == post_id:
-            posts[i] = post  # Update the post in the list
-            break
+        # Save updated posts
+        save_posts(posts)
 
-    save_posts(posts)  # Save changes to file
+        return redirect(url_for("index"))
 
-    # Else, it's a GET request
-    # So display the update.html page
-    return render_template('update.html', post=post)
+    return render_template("update.html", post=post)
 
 
 
